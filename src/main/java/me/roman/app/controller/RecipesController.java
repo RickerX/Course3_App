@@ -15,15 +15,15 @@ public class RecipesController {
         this.recipesService = recipesService;
     }
 
-    @GetMapping("/get/recipes")
+    @GetMapping("/get")
     public Recipes getRecipes() {
         return this.recipesService.getRecipes("1");
     }
-    @GetMapping("/all/recipes")
+    @GetMapping("/all")
     public Collection<Recipes> getAll() {
         return this.recipesService.getAll();
     }
-    @PostMapping("/add/recipes")
+    @PostMapping("/add")
     public Recipes addRecipes(@RequestBody Recipes recipes) {
         return this.recipesService.addRecipes(recipes);
     }

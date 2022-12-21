@@ -15,15 +15,15 @@ public class IngredientsController {
         this.ingredientsService = ingredientsService;
     }
 
-    @GetMapping("/get/ingredients")
+    @GetMapping("/get")
     public Ingredients getIngredients() {
         return this.ingredientsService.getIngredients("1");
     }
-    @GetMapping("/all/ingredients")
+    @GetMapping("/all")
     public Collection<Ingredients> getAll() {
         return this.ingredientsService.getAll();
     }
-    @PostMapping("/add/ingredients")
+    @PostMapping("/add")
     public Ingredients addRecipes(@RequestBody Ingredients ingredients) {
         return this.ingredientsService.addIngredients(ingredients);
     }
