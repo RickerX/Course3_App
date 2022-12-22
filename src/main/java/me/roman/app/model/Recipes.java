@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Recipes {
-    private final String id;
+    private  String id;
     private final String name;
     private final int time;
     private final List<Ingredients> ingredients = new ArrayList<>();
@@ -34,5 +34,9 @@ public class Recipes {
 
     public List<String> getCookingSteps() {
         return cookingSteps;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -5,5 +5,11 @@ import me.roman.app.model.Ingredients;
 public interface IngredientsService {
     Ingredients addIngredients(Ingredients ingredients);
 
-    Ingredients getIngredients(String id);
+    Ingredients getIngredientsById(String id);
+
+    Ingredients deleteIngredientsById(String id);
+
+    Ingredients deleteIngredients(Ingredients ingredients);
+
+    Ingredients updateIngredientsById(String id, Ingredients ingredients);
 }

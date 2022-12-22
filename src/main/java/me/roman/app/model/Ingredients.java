@@ -1,7 +1,7 @@
 package me.roman.app.model;
 
 public class Ingredients {
-    private final String id;
+    private String id;
     private final String name;
     private final int numberOfIngredients;
     private final String unitOfMeasurement;
@@ -27,5 +27,9 @@ public class Ingredients {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

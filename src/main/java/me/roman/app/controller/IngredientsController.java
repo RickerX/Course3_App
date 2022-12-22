@@ -15,16 +15,33 @@ public class IngredientsController {
         this.ingredientsService = ingredientsService;
     }
 
-    @GetMapping("/get")
-    public Ingredients getIngredients() {
-        return this.ingredientsService.getIngredients("1");
+    @GetMapping("/get/{id}")
+    public Ingredients getIngredientsById(@PathVariable("id") String id) {
+        return this.ingredientsService.getIngredientsById(id);
     }
+
     @GetMapping("/all")
     public Collection<Ingredients> getAll() {
         return this.ingredientsService.getAll();
     }
+
     @PostMapping("/add")
     public Ingredients addRecipes(@RequestBody Ingredients ingredients) {
         return this.ingredientsService.addIngredients(ingredients);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Ingredients deleteIngredientsById(@PathVariable("id") String id) {
+        return this.ingredientsService.deleteIngredientsById(id);
+    }
+
+    @DeleteMapping("/delete")
+    public Ingredients deleteIngredients(Ingredients ingredients) {
+        return this.ingredientsService.deleteIngredients(ingredients);
+    }
+
+    @PostMapping("/update/{id}")
+    public Ingredients updateIngredientsById(@PathVariable("id") String id, @RequestBody Ingredients ingredients) {
+        return this.ingredientsService.updateIngredientsById(id, ingredients);
     }
 }

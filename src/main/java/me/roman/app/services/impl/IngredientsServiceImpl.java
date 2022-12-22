@@ -25,11 +25,32 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
     @Override
-    public Ingredients getIngredients(String id) {
+    public Ingredients getIngredientsById(String id) {
         if (ingredientsMap.containsKey(id)) {
             return ingredientsMap.get(id);
         } else {
             throw new RuntimeException("Нет такого рецепта");
         }
+    }
+
+    @Override
+    public Ingredients deleteIngredientsById(String id) {
+        return ingredientsMap.remove(id);
+    }
+
+    @Override
+    public Ingredients deleteIngredients(Ingredients ingredients) {
+        ingredientsMap.remove(ingredients.getId(), ingredients);
+        return ingredients;
+    }
+
+    @Override
+    public Ingredients updateIngredientsById(String id, Ingredients ingredients) {
+        Ingredients serviceIngredients = ingredientsMap.get(id);
+        if (serviceIngredients == null) {
+            throw new RuntimeException("Ингридиент не найден");
+        }
+        serviceIngredients.setId(ingredients.getId());
+        return serviceIngredients;
     }
 }
