@@ -39,16 +39,10 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public boolean deleteRecipes(Recipes recipes) {
-        boolean remove = recipesMap.remove(recipes.getId(), recipes);
-        return remove;
-    }
-
-    @Override
     public Recipes updateRecipesById(String id, Recipes recipes) {
         Recipes serviceRecipes = recipesMap.get(id);
         if (serviceRecipes == null) {
-            throw new RuntimeException("Ингридиент не найден");
+            throw new RuntimeException("Рецепт не найден");
         }
         serviceRecipes.setId(recipes.getId());
         return serviceRecipes;

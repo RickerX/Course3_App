@@ -9,7 +9,6 @@ public interface IngredientsService {
 
     Ingredients deleteIngredientsById(String id);
 
-    Ingredients deleteIngredients(Ingredients ingredients);
 
     Ingredients updateIngredientsById(String id, Ingredients ingredients);
 }

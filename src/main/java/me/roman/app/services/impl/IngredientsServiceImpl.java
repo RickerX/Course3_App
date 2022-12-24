@@ -38,11 +38,7 @@ public class IngredientsServiceImpl implements IngredientsService {
         return ingredientsMap.remove(id);
     }
 
-    @Override
-    public Ingredients deleteIngredients(Ingredients ingredients) {
-        ingredientsMap.remove(ingredients.getId(), ingredients);
-        return ingredients;
-    }
+
 
     @Override
     public Ingredients updateIngredientsById(String id, Ingredients ingredients) {
