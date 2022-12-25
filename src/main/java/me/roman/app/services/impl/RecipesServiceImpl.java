@@ -44,7 +44,7 @@ public class RecipesServiceImpl implements RecipesService {
         if (serviceRecipes == null) {
             throw new RuntimeException("Рецепт не найден");
         }
-        serviceRecipes.setId(recipes.getId());
-        return serviceRecipes;
+        recipesMap.replace(id, recipes);
+        return recipes;
     }
 }

@@ -46,7 +46,7 @@ public class IngredientsServiceImpl implements IngredientsService {
         if (serviceIngredients == null) {
             throw new RuntimeException("Ингридиент не найден");
         }
-        serviceIngredients.setId(ingredients.getId());
-        return serviceIngredients;
+        ingredientsMap.replace(id, ingredients);
+        return ingredients;
     }
 }
