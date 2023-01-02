@@ -1,10 +1,10 @@
 package me.roman.app.services;
 
-import me.roman.app.model.Recipes;
+import me.roman.app.model.Recipe;
 
 public interface RecipesService {
-    Recipes addRecipes(Recipes recipes);
-    Recipes getRecipesById(String id);
-    Recipes deleteRecipesById(String id);
-    Recipes updateRecipesById(String id, Recipes recipes);
+    Recipe add(Recipe recipes);
+    Recipe getById(String id);
+    Recipe deleteById(String id);
+    Recipe updateById(String id, Recipe recipes);
 }

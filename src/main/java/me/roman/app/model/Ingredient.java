@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredients {
+public class Ingredient {
     private String id;
     private String name;
     private int numberOfIngredients;

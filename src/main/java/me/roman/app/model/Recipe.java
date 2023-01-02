@@ -9,10 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Recipes {
+public class Recipe {
     private  String id;
     private  String name;
     private  int time;
-    private final List<Ingredients> ingredients = new ArrayList<>();
+    private final List<Ingredient> ingredients = new ArrayList<>();
     private final List<String> cookingSteps = new ArrayList<>();
 }

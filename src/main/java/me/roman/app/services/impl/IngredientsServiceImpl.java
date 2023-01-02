@@ -2,7 +2,7 @@ package me.roman.app.services.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.roman.app.model.Ingredients;
+import me.roman.app.model.Ingredient;
 
 import me.roman.app.services.IngredientsService;
 import org.springframework.stereotype.Service;
@@ -15,18 +15,18 @@ import java.util.Map;
 @Service
 public class IngredientsServiceImpl implements IngredientsService {
     final private FilesServiceIngredientsImpl filesServiceIngredients;
-    private Map<String, Ingredients> ingredientsMap = new HashMap<>();
+    private Map<String, Ingredient> ingredientsMap = new HashMap<>();
 
     public IngredientsServiceImpl(FilesServiceIngredientsImpl filesServiceIngredients) {
         this.filesServiceIngredients = filesServiceIngredients;
     }
 
-    public Collection<Ingredients> getAll() {
+    public Collection<Ingredient> getAll() {
         return ingredientsMap.values();
     }
 
     @Override
-    public Ingredients addIngredients(Ingredients ingredients) {
+    public Ingredient add(Ingredient ingredients) {
         if (ingredientsMap.containsKey(ingredients.getId())) {
             throw new RuntimeException("Нельзя добавить дубликат рецепта");
         } else {
@@ -37,7 +37,7 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
     @Override
-    public Ingredients getIngredientsById(String id) {
+    public Ingredient getById(String id) {
         if (ingredientsMap.containsKey(id)) {
             return ingredientsMap.get(id);
         } else {
@@ -46,15 +46,15 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
     @Override
-    public Ingredients deleteIngredientsById(String id) {
+    public Ingredient deleteById(String id) {
         return ingredientsMap.remove(id);
     }
 
 
 
     @Override
-    public Ingredients updateIngredientsById(String id, Ingredients ingredients) {
-        Ingredients serviceIngredients = ingredientsMap.get(id);
+    public Ingredient updateById(String id, Ingredient ingredients) {
+        Ingredient serviceIngredients = ingredientsMap.get(id);
         if (serviceIngredients == null) {
             throw new RuntimeException("Ингридиент не найден");
         }
@@ -75,7 +75,7 @@ public class IngredientsServiceImpl implements IngredientsService {
     private void readFromFile() {
         String json = filesServiceIngredients.readFromFileIngredients();
         try {
-            ingredientsMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<String, Ingredients>>() {
+            ingredientsMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<String, Ingredient>>() {
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

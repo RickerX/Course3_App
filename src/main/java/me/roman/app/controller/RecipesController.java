@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.roman.app.model.Recipes;
+import me.roman.app.model.Recipe;
 import me.roman.app.services.impl.RecipesServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ public class RecipesController {
         this.recipesService = recipesService;
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Поиск рецепта по id")
     @ApiResponses(value = {
             @ApiResponse(
@@ -31,16 +31,16 @@ public class RecipesController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipes.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
                             )
                     }
             )
     })
-    public Recipes getRecipesById(@PathVariable("id") String id) {
-        return this.recipesService.getRecipesById(id);
+    public Recipe getRecipesById(@PathVariable("id") String id) {
+        return this.recipesService.getById(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     @Operation(summary = "Поиск всех рецептов")
     @ApiResponses(value = {
             @ApiResponse(
@@ -49,16 +49,16 @@ public class RecipesController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipes.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
                             )
                     }
             )
     })
-    public Collection<Recipes> getAll() {
+    public Collection<Recipe> getAll() {
         return this.recipesService.getAll();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     @Operation(summary = "Добавить рецепт")
     @ApiResponses(value = {
             @ApiResponse(
@@ -67,16 +67,16 @@ public class RecipesController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipes.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
                             )
                     }
             )
     })
-    public Recipes addRecipes(@RequestBody Recipes recipes) {
-        return this.recipesService.addRecipes(recipes);
+    public Recipe addRecipes(@RequestBody Recipe recipes) {
+        return this.recipesService.add(recipes);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Удаление рецепта по id")
     @ApiResponses(value = {
             @ApiResponse(
@@ -85,17 +85,17 @@ public class RecipesController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipes.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
                             )
                     }
             )
     })
-    public Recipes deleteRecipesById(@PathVariable("id") String id) {
-        return this.recipesService.deleteRecipesById(id);
+    public Recipe deleteRecipesById(@PathVariable("id") String id) {
+        return this.recipesService.deleteById(id);
     }
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @Operation(summary = "Обновление рецепта по id")
     @ApiResponses(value = {
             @ApiResponse(
@@ -104,12 +104,12 @@ public class RecipesController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipes.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
                             )
                     }
             )
     })
-    public Recipes updateRecipesById(@PathVariable String id, @RequestBody Recipes recipes) {
-        return this.recipesService.updateRecipesById(id, recipes);
+    public Recipe updateRecipesById(@PathVariable String id, @RequestBody Recipe recipes) {
+        return this.recipesService.updateById(id, recipes);
     }
 }

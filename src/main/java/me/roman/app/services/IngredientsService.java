@@ -1,14 +1,14 @@
 package me.roman.app.services;
 
-import me.roman.app.model.Ingredients;
+import me.roman.app.model.Ingredient;
 
 public interface IngredientsService {
-    Ingredients addIngredients(Ingredients ingredients);
+    Ingredient add(Ingredient ingredients);
 
-    Ingredients getIngredientsById(String id);
+    Ingredient getById(String id);
 
-    Ingredients deleteIngredientsById(String id);
+    Ingredient deleteById(String id);
 
 
-    Ingredients updateIngredientsById(String id, Ingredients ingredients);
+    Ingredient updateById(String id, Ingredient ingredients);
 }
