@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.roman.app.model.Ingredient;
 import me.roman.app.model.Recipe;
-import me.roman.app.services.IngredientsService;
 import me.roman.app.services.impl.IngredientsServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/ingredients")
 @Tag(name = "Ингредиенты", description = "CRUD - операции")
-public class IngredientsController implements IngredientsService {
+public class IngredientsController {
     public final IngredientsServiceImpl ingredientsService;
 
     public IngredientsController(IngredientsServiceImpl ingredientsService) {
@@ -34,7 +33,7 @@ public class IngredientsController implements IngredientsService {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
             )
@@ -52,7 +51,7 @@ public class IngredientsController implements IngredientsService {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
             )
@@ -70,7 +69,7 @@ public class IngredientsController implements IngredientsService {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
             )
@@ -88,7 +87,7 @@ public class IngredientsController implements IngredientsService {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
             )
@@ -115,25 +114,5 @@ public class IngredientsController implements IngredientsService {
     })
     public Ingredient updateIngredientsById(@PathVariable String id, @RequestBody Ingredient ingredients) {
         return this.ingredientsService.updateById(id, ingredients);
-    }
-
-    @Override
-    public Ingredient add(Ingredient ingredients) {
-        return null;
-    }
-
-    @Override
-    public Ingredient getById(String id) {
-        return null;
-    }
-
-    @Override
-    public Ingredient deleteById(String id) {
-        return null;
-    }
-
-    @Override
-    public Ingredient updateById(String id, Ingredient ingredients) {
-        return null;
     }
 }
