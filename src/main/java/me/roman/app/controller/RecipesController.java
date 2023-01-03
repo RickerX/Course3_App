@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.roman.app.model.Recipe;
+import me.roman.app.services.RecipesService;
 import me.roman.app.services.impl.RecipesServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/recipes")
 @Tag(name = "Рецепты", description = "CRUD - операции")
-public class RecipesController {
+public class RecipesController implements RecipesService {
     private final RecipesServiceImpl recipesService;
 
     public RecipesController(RecipesServiceImpl recipesService) {
@@ -111,5 +112,25 @@ public class RecipesController {
     })
     public Recipe updateRecipesById(@PathVariable String id, @RequestBody Recipe recipes) {
         return this.recipesService.updateById(id, recipes);
+    }
+
+    @Override
+    public Recipe add(Recipe recipes) {
+        return null;
+    }
+
+    @Override
+    public Recipe getById(String id) {
+        return null;
+    }
+
+    @Override
+    public Recipe deleteById(String id) {
+        return null;
+    }
+
+    @Override
+    public Recipe updateById(String id, Recipe recipes) {
+        return null;
     }
 }

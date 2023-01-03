@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.roman.app.model.Recipe;
 import me.roman.app.services.RecipesService;
 import me.roman.app.services.ServiceException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Qualifier
 public class RecipesServiceImpl implements RecipesService {
     final private FilesServiceRecipesImpl filesServiceRecipes;
     private Map<String, Recipe> recipesMap = new HashMap<>();
