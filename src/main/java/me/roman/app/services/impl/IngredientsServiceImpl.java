@@ -3,23 +3,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.roman.app.model.Ingredient;
-
 import me.roman.app.services.IngredientsService;
+import me.roman.app.services.ServiceException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Qualifier
+
 public class IngredientsServiceImpl implements IngredientsService {
     final private FilesServiceIngredientsImpl filesServiceIngredients;
     private Map<String, Ingredient> ingredientsMap = new HashMap<>();
 
-    public IngredientsServiceImpl(FilesServiceIngredientsImpl filesServiceIngredients) {
+    public IngredientsServiceImpl(@Qualifier("filesServiceIngredientsImpl")
+                                  FilesServiceIngredientsImpl filesServiceIngredients) {
         this.filesServiceIngredients = filesServiceIngredients;
     }
 
@@ -30,7 +30,11 @@ public class IngredientsServiceImpl implements IngredientsService {
     @Override
     public Ingredient add(Ingredient ingredients) {
         if (ingredientsMap.containsKey(ingredients.getId())) {
-            throw new RuntimeException("Нельзя добавить дубликат рецепта");
+            try {
+                throw new ServiceException("Нельзя добавить дубликат рецепта");
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             ingredientsMap.put(ingredients.getId(), ingredients);
         }
@@ -43,7 +47,11 @@ public class IngredientsServiceImpl implements IngredientsService {
         if (ingredientsMap.containsKey(id)) {
             return ingredientsMap.get(id);
         } else {
-            throw new RuntimeException("Нет такого рецепта");
+            try {
+                throw new ServiceException("Нет такого рецепта");
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -58,7 +66,11 @@ public class IngredientsServiceImpl implements IngredientsService {
     public Ingredient updateById(String id, Ingredient ingredients) {
         Ingredient serviceIngredients = ingredientsMap.get(id);
         if (serviceIngredients == null) {
-            throw new RuntimeException("Ингридиент не найден");
+            try {
+                throw new ServiceException("Ингридиент не найден");
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
         }
         ingredientsMap.replace(id, ingredients);
         saveToFile();
@@ -70,7 +82,11 @@ public class IngredientsServiceImpl implements IngredientsService {
             String json = new ObjectMapper().writeValueAsString(ingredientsMap);
             filesServiceIngredients.saveToFileIngredients(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            try {
+                throw new ServiceException("Не удалось сохранить фаил");
+            } catch (ServiceException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -80,7 +96,11 @@ public class IngredientsServiceImpl implements IngredientsService {
             ingredientsMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<String, Ingredient>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            try {
+                throw new ServiceException("Не удалось прочитать фаил");
+            } catch (ServiceException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 

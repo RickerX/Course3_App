@@ -8,7 +8,6 @@ import me.roman.app.services.ServiceException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,8 @@ public class RecipesServiceImpl implements RecipesService {
     final private FilesServiceRecipesImpl filesServiceRecipes;
     private Map<String, Recipe> recipesMap = new HashMap<>();
 
-    public RecipesServiceImpl(FilesServiceRecipesImpl filesServiceRecipes) {
+    public RecipesServiceImpl(@Qualifier("filesServiceRecipesImpl")
+                              FilesServiceRecipesImpl filesServiceRecipes) {
         this.filesServiceRecipes = filesServiceRecipes;
     }
 
@@ -47,7 +47,11 @@ public class RecipesServiceImpl implements RecipesService {
         if (recipesMap.containsKey(id)) {
             return recipesMap.get(id);
         } else {
-            throw new RuntimeException("Нет такого рецепта");
+            try {
+                throw new ServiceException("Нет такого рецепта");
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -71,7 +75,11 @@ public class RecipesServiceImpl implements RecipesService {
             String json = new ObjectMapper().writeValueAsString(recipesMap);
             filesServiceRecipes.saveToFileRecipes(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("не удалось сохранить json фаил");
+            try {
+                throw new ServiceException("не удалось сохранить json фаил");
+            } catch (ServiceException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -81,7 +89,11 @@ public class RecipesServiceImpl implements RecipesService {
             recipesMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<String, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            try {
+                throw new ServiceException("Фаил невозможно прочитать.");
+            } catch (ServiceException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
     @PostConstruct
