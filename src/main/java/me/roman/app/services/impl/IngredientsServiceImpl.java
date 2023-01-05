@@ -3,23 +3,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.roman.app.model.Ingredient;
-
 import me.roman.app.services.IngredientsService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Qualifier
 public class IngredientsServiceImpl implements IngredientsService {
     final private FilesServiceIngredientsImpl filesServiceIngredients;
     private Map<String, Ingredient> ingredientsMap = new HashMap<>();
 
-    public IngredientsServiceImpl(FilesServiceIngredientsImpl filesServiceIngredients) {
+    public IngredientsServiceImpl(@Qualifier("filesServiceIngredientsImpl")
+                                  FilesServiceIngredientsImpl filesServiceIngredients) {
         this.filesServiceIngredients = filesServiceIngredients;
     }
 

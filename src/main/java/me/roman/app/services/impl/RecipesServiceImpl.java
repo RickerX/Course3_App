@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Qualifier
 public class RecipesServiceImpl implements RecipesService {
     final private FilesServiceRecipesImpl filesServiceRecipes;
     private Map<String, Recipe> recipesMap = new HashMap<>();
 
-    public RecipesServiceImpl(FilesServiceRecipesImpl filesServiceRecipes) {
+    public RecipesServiceImpl(@Qualifier("filesServiceRecipesImpl")
+                                  FilesServiceRecipesImpl filesServiceRecipes) {
         this.filesServiceRecipes = filesServiceRecipes;
     }
 
