@@ -2,6 +2,7 @@ package me.roman.app.services.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import me.roman.app.model.Recipe;
 import me.roman.app.services.RecipesService;
 import me.roman.app.services.ServiceException;
@@ -27,14 +28,11 @@ public class RecipesServiceImpl implements RecipesService {
         return recipesMap.values();
     }
 
+    @SneakyThrows
     @Override
     public Recipe add(Recipe recipes) {
         if (recipesMap.containsKey(recipes.getId())) {
-            try {
                 throw new ServiceException("Нельзя добавить дубликат рецепта");
-            } catch (ServiceException e) {
-                throw new RuntimeException(e);
-            }
         } else {
             recipesMap.put(recipes.getId(), recipes);
         }
@@ -42,16 +40,13 @@ public class RecipesServiceImpl implements RecipesService {
         return recipes;
     }
 
+    @SneakyThrows
     @Override
     public Recipe getById(String id) {
         if (recipesMap.containsKey(id)) {
             return recipesMap.get(id);
         } else {
-            try {
-                throw new ServiceException("Нет такого рецепта");
-            } catch (ServiceException e) {
-                throw new RuntimeException(e);
-            }
+            throw new ServiceException("Нет такого рецепта");
         }
     }
 
@@ -60,40 +55,35 @@ public class RecipesServiceImpl implements RecipesService {
         return recipesMap.remove(id);
     }
 
+    @SneakyThrows
     @Override
     public Recipe updateById(String id, Recipe recipes) {
         Recipe serviceRecipes = recipesMap.get(id);
         if (serviceRecipes == null) {
-            throw new RuntimeException("Рецепт не найден");
+            throw new ServiceException("Рецепт не найден");
         }
         recipesMap.replace(id, recipes);
         saveToFile();
         return recipes;
     }
+    @SneakyThrows
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipesMap);
             filesServiceRecipes.saveToFileRecipes(json);
         } catch (JsonProcessingException e) {
-            try {
                 throw new ServiceException("не удалось сохранить json фаил");
-            } catch (ServiceException ex) {
-                throw new RuntimeException(ex);
-            }
         }
     }
 
+    @SneakyThrows
     private void readFromFile() {
         String json = filesServiceRecipes.readFromFileRecipes();
         try {
             recipesMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<String, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            try {
                 throw new ServiceException("Фаил невозможно прочитать.");
-            } catch (ServiceException ex) {
-                throw new RuntimeException(ex);
-            }
         }
     }
     @PostConstruct

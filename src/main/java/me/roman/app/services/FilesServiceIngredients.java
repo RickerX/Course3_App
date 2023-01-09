@@ -5,8 +5,7 @@ import java.nio.file.Path;
 
 public interface FilesServiceIngredients {
     boolean saveToFileIngredients(String json);
-
-    Path createTempFileIngredients();
+    Path createTempFileIngredients(String suffix);
 
     String readFromFileIngredients();
 

@@ -2,6 +2,9 @@ package me.roman.app.services;
 
 import me.roman.app.model.Ingredient;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 public interface IngredientsService {
     Ingredient add(Ingredient ingredients);
 
@@ -11,4 +14,6 @@ public interface IngredientsService {
 
 
     Ingredient updateById(String id, Ingredient ingredients);
+
+    Path createIngredientsReport(String id) throws IOException;
 }

@@ -25,14 +25,16 @@ public class FilesServiceIngredientsImpl implements FilesServiceIngredients {
             return false;
         }
     }
+
     @Override
-    public Path createTempFileIngredients() {
+    public Path createTempFileIngredients(String suffix) {
         try {
-            return Files.createTempFile(Path.of(dataFilePath),"tempFile","suffix");
+            return Files.createTempFile(Path.of(dataFilePath),suffix,"suffix");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public String readFromFileIngredients() {
         try {

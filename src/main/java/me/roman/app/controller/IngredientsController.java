@@ -9,10 +9,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.roman.app.model.Ingredient;
 import me.roman.app.model.Recipe;
+import me.roman.app.services.FilesServiceIngredients;
 import me.roman.app.services.impl.IngredientsServiceImpl;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/ingredients")
@@ -97,7 +108,6 @@ public class IngredientsController {
     }
 
 
-
     @PutMapping("/{id}")
     @Operation(summary = "Обновление ингредиента по id")
     @ApiResponses(value = {
@@ -107,12 +117,30 @@ public class IngredientsController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
             )
     })
     public Ingredient updateIngredientsById(@PathVariable String id, @RequestBody Ingredient ingredients) {
         return this.ingredientsService.updateById(id, ingredients);
+    }
+    @GetMapping("/report/{id}")
+    public ResponseEntity<Object> getIngredientsReport(@PathVariable String id) {
+        try {
+            Path path = ingredientsService.createIngredientsReport(id);
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            }
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentLength(Files.size(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+                            + id + "-report.txt\"")
+                    .body(resource);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
