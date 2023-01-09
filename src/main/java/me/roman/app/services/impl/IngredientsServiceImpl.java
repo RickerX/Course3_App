@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import me.roman.app.model.Ingredient;
 import me.roman.app.services.IngredientsService;
 import me.roman.app.services.ServiceException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
@@ -108,5 +109,16 @@ public class IngredientsServiceImpl implements IngredientsService {
             }
         }
         return path;
+    }
+    @Override
+    public void addIngredientsFromInputStream(InputStream inputStream) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))){
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] array = StringUtils.split(line, '|');
+                Ingredient ingredient = new Ingredient();
+                add(ingredient);
+            }
+        }
     }
 }
